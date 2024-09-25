@@ -4,10 +4,10 @@
     <meta charset='utf-8'>
     <title>WebNN Developer Preview - Image Classification</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="apple-touch-icon" sizes="180x180" href="./static/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="./static/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./static/favicon/favicon-16x16.png">
-    <link rel="stylesheet" href="./static/main.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="../image-classification/static/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../image-classification/static/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../image-classification/static/favicon/favicon-16x16.png">
+    <link rel="stylesheet" href="../image-classification/static/main.css">
     <script type="module" src="./index.js"></script>
 </head>
 
@@ -88,12 +88,15 @@
         <div class="grid-2">
             <div>
                 <div id="container">
-                    <img id="image" src="./static/tiger.jpg" />
+                    <img id="image" src="../image-classification/static/tiger.jpg" />
                 </div>
                 <div id="controls">
                     <div class="btn-group-toggle backends" data-toggle="buttons" id="backendBtns">
                         <label class="btn" name="webnn" id="label_webgpu">
                             <input type="radio" name="backend" id="webgpu">WebGPU
+                        </label>
+                        <label class="btn" name="webnn" id="label_webnn_cpu">
+                            <input type="radio" name="backend" id="webnn_cpu">WebNN CPU
                         </label>
                         <label class="btn" name="webnn" id="label_webnn_gpu">
                             <input type="radio" name="backend" id="webnn_gpu">WebNN GPU

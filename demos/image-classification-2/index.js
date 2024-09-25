@@ -41,6 +41,7 @@ let runs = 1;
 let range, rangeValue, runSpan;
 let backendLabels, modelLabels;
 let label_webgpu,
+  label_webnn_cpu,
   label_webnn_gpu,
   label_webnn_npu,
   label_mobilenetV2,
@@ -226,6 +227,11 @@ const initModelSelector = () => {
       label_webgpu.setAttribute("class", "btn active");
     } else if (
       getQueryValue("provider").toLowerCase() === "webnn" &&
+      getQueryValue("devicetype").toLowerCase() === "cpu"
+    ) {
+      label_webnn_cpu.setAttribute("class", "btn active");
+    } else if (
+      getQueryValue("provider").toLowerCase() === "webnn" &&
       getQueryValue("devicetype").toLowerCase() === "gpu"
     ) {
       label_webnn_gpu.setAttribute("class", "btn active");
@@ -286,6 +292,19 @@ const controls = async () => {
       window.history.pushState({}, "", updatedUrl);
       provider = "webgpu";
       deviceType = "gpu";
+    } else if (e.target.id.trim() === "webnn_cpu") {
+      let currentUrl = window.location.href;
+      let updatedUrl = updateQueryStringParameter(
+        currentUrl,
+        "provider",
+        "webnn"
+      );
+      window.history.pushState({}, "", updatedUrl);
+      currentUrl = window.location.href;
+      updatedUrl = updateQueryStringParameter(currentUrl, "devicetype", "cpu");
+      window.history.pushState({}, "", updatedUrl);
+      provider = "webnn";
+      deviceType = "cpu";
     } else if (e.target.id.trim() === "webnn_gpu") {
       let currentUrl = window.location.href;
       let updatedUrl = updateQueryStringParameter(
@@ -438,7 +457,7 @@ const changeImage = async () => {
 };
 
 const ui = async () => {
-  imageUrl = "./static/tiger.jpg";
+  imageUrl = "../image-classification/static/tiger.jpg";
   if (
     !(
       getQueryValue("provider") &&
@@ -460,6 +479,7 @@ const ui = async () => {
   backendLabels = document.querySelectorAll(".backends label");
   modelLabels = document.querySelectorAll(".models label");
   label_webgpu = document.querySelector("#label_webgpu");
+  label_webnn_cpu = document.querySelector("#label_webnn_cpu");
   label_webnn_gpu = document.querySelector("#label_webnn_gpu");
   label_webnn_npu = document.querySelector("#label_webnn_npu");
   label_mobilenetV2 = document.querySelector("#label_mobilenet-v2");

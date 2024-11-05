@@ -665,10 +665,8 @@ const updateNpuLinks = () => {
     const links = `· <a href="./?devicetype=gpu">GPU</a> <a id="npu_link" href="./?devicetype=npu">NPU</a>`;
     backendLinks.innerHTML = `${links}`;
     navigator.userAgentData.getHighEntropyValues(["architecture"]).then(ua => {
-        if (ua.architecture === "arm") {
+        if (ua.architecture === "x86") {
             document.querySelector("#npu_link").setAttribute("class", "arm");
-        } else {
-            document.querySelector("#npu_link").setAttribute("class", "");
         }
     });
 };

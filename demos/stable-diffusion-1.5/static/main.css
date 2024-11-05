@@ -56,6 +56,8 @@
   --disabled: rgba(245, 245, 245, 0.2);
   --bg-2: rgb(230, 230, 230, 0.2);
   --bg-2h: rgb(230, 230, 230, 0.4);
+  --bg-05: rgb(255, 255, 255, 0.05);
+  --npu: rgba(1, 7, 52, 1);
   --bg-3: rgba(200, 200, 200, 0.2);
   --bg-btn: rgba(255, 255, 255, 1);
   --main-01: rgba(39, 94, 254, 0.1);
@@ -70,6 +72,8 @@
   --border: rgb(230, 230, 230, 1);
   --green: rgba(1, 212, 73, 1);
   --pink: rgb(255, 0, 129);
+  --pink-08: rgba(255, 0, 129, 0.8);
+  --pink-06: rgba(255, 0, 129, 0.6);
 }
 
 * {
@@ -118,6 +122,16 @@ body {
   stroke: #61bafb;
 }
 
+#webnnstatus a {
+  color: var(--main);
+  text-decoration: none;
+}
+
+#webnnstatus a:hover {
+  color: var(--green);
+  text-decoration: underline;
+}
+
 #webnnstatus a#webnn_na {
   color: var(--pink);
   background-color: rgba(255, 255, 255, 0.8);
@@ -132,6 +146,14 @@ body {
   color: var(--bg);
   border: 0px solid white;
   text-decoration: none;
+}
+
+#npu_link {
+  display: none;
+}
+
+#npu_link.arm {
+  display: inline;
 }
 
 .log-output::-webkit-scrollbar {
@@ -210,6 +232,91 @@ h1.title span {
 .title_error {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+}
+
+#badge {
+  border-radius: 3px;
+  align-self: center;
+  padding: 4px 10px;
+  color: var(--bg);
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to right bottom, var(--pink-06), var(--pink-08), var(--pink));
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr;
+  column-gap: 10px;
+  align-items: center;
+  justify-items: center;
+  width: 120px;
+  justify-self: flex-end;
+}
+
+#badge:hover {
+  background: linear-gradient(135deg, var(--pink-08) 0%, var(--pink) 40%, var(--pink) 100%);
+  box-shadow: 0 3px 15px -1px var(--pink-06);
+}
+
+#badge.npu {
+  background: linear-gradient(to right bottom, rgba(117, 116, 242), var(--npu));
+}
+
+#badge.npu:hover {
+  background: linear-gradient(to right bottom, rgba(117, 116, 242), var(--npu-08), var(--npu));
+  box-shadow: 0 3px 15px -1px var(--npu);
+}
+
+#badge.cpu {
+  background: linear-gradient(to right bottom, var(--main-06), var(--main));
+}
+
+#badge.cpu:hover {
+  background: linear-gradient(to right bottom, var(--main), var(--main-dark), var(--main-darker));
+  box-shadow: 0 3px 15px -1px var(--main-darker);
+}
+
+.badge-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.badge-text span {
+  font-size: 0.6rem;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  column-gap: 2px;
+  row-gap: 2px;
+  align-items: center;
+}
+
+.tile {
+  border: 1px solid var(--bg);
+  padding: 2px;
+  border-radius: 1px;
+}
+
+.t4 {
+  border-color: var(--bg-8);
+}
+
+.t3 {
+  border-color: var(--bg-6);
+}
+
+.t2 {
+  border-color: var(--bg-4);
+}
+
+.t1 {
+  border-color: var(--bg-2);
+}
+
+.t0 {
+  border-color: var(--bg-05);
 }
 
 #back {
@@ -233,12 +340,10 @@ h1.title span {
 
 #back:hover {
   border: 1px solid var(--main);
-  background: linear-gradient(
-    135deg,
-    var(--main) 0%,
-    var(--main-dark) 40%,
-    var(--main-darker) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--main) 0%,
+      var(--main-dark) 40%,
+      var(--main-darker) 100%);
   color: var(--bg);
   box-shadow: 0 3px 15px -1px var(--main-05);
   cursor: pointer;
@@ -389,12 +494,10 @@ h1.title span {
 #change_seed:hover {
   background: var(--main);
   border: 1px solid var(--border);
-  background: linear-gradient(
-    135deg,
-    var(--main) 0%,
-    var(--main-dark) 40%,
-    var(--main-darker) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--main) 0%,
+      var(--main-dark) 40%,
+      var(--main-darker) 100%);
 }
 
 .key button {
@@ -407,12 +510,10 @@ h1.title span {
   cursor: pointer;
   background: var(--main);
   border: 1px solid var(--main);
-  background: linear-gradient(
-    135deg,
-    var(--main) 0%,
-    var(--main-dark) 40%,
-    var(--main-darker) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--main) 0%,
+      var(--main-dark) 40%,
+      var(--main-darker) 100%);
   color: var(--bg);
   font-family: "Archivo", system-ui, sans-serif;
   text-shadow: var(--main-darker) 1px 2px 1px;
@@ -422,12 +523,10 @@ h1.title span {
   background: var(--main-dark);
   border: 1px solid var(--main-dark);
   color: var(--bg);
-  background: linear-gradient(
-    135deg,
-    var(--main-dark) 0%,
-    var(--main-darker) 40%,
-    var(--main-darker) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--main-dark) 0%,
+      var(--main-darker) 40%,
+      var(--main-darker) 100%);
   box-shadow: 0 3px 15px -1px var(--main-05);
 }
 
@@ -777,8 +876,7 @@ h1.title span {
 }
 
 /* Largest devices such as desktops (1280px) */
-@media only screen and (max-width: 80em) {
-}
+@media only screen and (max-width: 80em) {}
 
 /* Large devices such as laptops (1024px) */
 @media only screen and (max-width: 64em) {
@@ -830,6 +928,7 @@ h1.title span {
     grid-template-rows: 1fr 1fr;
     row-gap: 10px;
   }
+
   .grid-4 {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr;

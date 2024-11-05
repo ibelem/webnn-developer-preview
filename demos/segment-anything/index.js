@@ -44,6 +44,8 @@ const MODELS = {
 
 const config = getConfig();
 
+let device = "gpu";
+let badge;
 let canvas;
 let placeholder;
 let actionBar;
@@ -658,7 +660,22 @@ const updateProgressBar = progress => {
     progressBar.style.width = `${progress}%`;
 };
 
+const updateNpuLinks = () => {
+    let backendLinks = document.querySelector("#backend-links");
+    const links = `· <a href="./?devicetype=gpu">GPU</a> <a id="npu_link" href="./?devicetype=npu">NPU</a>`;
+    backendLinks.innerHTML = `${links}`;
+    navigator.userAgentData.getHighEntropyValues(["architecture"]).then(ua => {
+        if (ua.architecture === "arm") {
+            document.querySelector("#npu_link").setAttribute("class", "arm");
+        } else {
+            document.querySelector("#npu_link").setAttribute("class", "");
+        }
+    });
+};
+
 const ui = async () => {
+    device = document.getElementById("device");
+    badge = document.getElementById("badge");
     placeholder = document.querySelector("#placeholder div");
     canvas = document.querySelector("#img_canvas");
     filein = document.querySelector("#file-in");
@@ -675,10 +692,28 @@ const ui = async () => {
     await setupORT("segment-anything", "test");
     showCompatibleChromiumVersion("segment-anything");
 
+    if (config.devicetype.toLowerCase().indexOf("cpu") > -1 || config.provider.toLowerCase().indexOf("wasm") > -1) {
+        device.innerHTML = "CPU";
+        badge.setAttribute("class", "cpu");
+        document.body.setAttribute("class", "cpu");
+    } else if (
+        config.devicetype.toLowerCase().indexOf("gpu") > -1 ||
+        config.provider.toLowerCase().indexOf("webgpu") > -1
+    ) {
+        device.innerHTML = "GPU";
+        badge.setAttribute("class", "");
+        document.body.setAttribute("class", "gpu");
+    } else if (config.devicetype.toLowerCase().indexOf("npu") > -1) {
+        device.innerHTML = "NPU";
+        badge.setAttribute("class", "npu");
+        document.body.setAttribute("class", "npu");
+    }
+
     // ort.env.wasm.wasmPaths = 'dist/';
     ort.env.wasm.numThreads = config.threads;
     // ort.env.wasm.proxy = config.provider == "wasm";
     await checkWebNN();
+    updateNpuLinks();
 };
 
 document.addEventListener("DOMContentLoaded", ui, false);

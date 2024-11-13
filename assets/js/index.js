@@ -40,4 +40,20 @@ async function webnnChecker() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", webnnChecker, false);
+function updateNpuLinks() {
+    const npuLinks = document.querySelectorAll(".npu_link");
+    navigator.userAgentData.getHighEntropyValues(["architecture"]).then(ua => {
+        if (ua.architecture === "arm") {
+            npuLinks.forEach(link => {
+                link.setAttribute("class", "npu_link arm");
+            });
+        }
+    });
+}
+
+async function ui() {
+    updateNpuLinks();
+    await webnnChecker();
+}
+
+document.addEventListener("DOMContentLoaded", ui, false);

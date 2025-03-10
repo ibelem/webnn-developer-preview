@@ -4,7 +4,7 @@ import eslintConfigPrettier from "eslint-config-prettier";
 
 export default [
     {
-        ignores: ["assets/dist_transformers/", "assets/dist/", "demos/whisper-base/static/js/*"],
+        ignores: ["assets/assets/dist_transformers/", "assets/dist_transformers/", "assets/dist/", "demos/whisper-base/static/js/*"],
     },
     {
         languageOptions: {

@@ -90,8 +90,9 @@ h1.title span {
     border: 1px solid var(--main);
     background: linear-gradient(135deg, var(--main) 0%, var(--main-dark) 40%, var(--main-darker) 100%);
     color: var(--bg);
-    box-shadow: 0 3px 15px -1px var(--main-5);
+    box-shadow: 0 3px 12px -1px var(--main-5);
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 #back:hover svg path {
@@ -156,7 +157,7 @@ h1.title span {
 
 .button-group {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     padding: 4px;
     background-color: var(--main-alpha-2);
     border: 1px solid var(--border);
@@ -191,38 +192,73 @@ h1.title span {
 }
 
 .button-group svg {
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
     margin-right: 2px;
-    margin-bottom: -4px;
-}
-
-#image_area {
-    margin: 20px auto 10px auto;
-    min-height: 40vh;
+    margin-bottom: -3px;
 }
 
 #data_area {
-    margin-bottom: 20px;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 600;
-    height: 40px;
+    height: 36px;
     display: flex;
     justify-content: center;
+    margin-bottom: 8px;
 }
 
 #data_area div {
+    width: 100%;
     padding: 4px 18px;
-    background-color: var(--pink);
+    background-color: var(--green);
     color: var(--bg);
-    transform: skew(-15deg);
     border-radius: 5px;
     text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
     display: none;
 }
 
 #data_area div.show {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+}
+
+#data_area div.steps-progress {
+    background-color: color-mix(in srgb, var(--pink) calc(100% - var(--progress, 0%)), var(--green) var(--progress, 0%));
+    position: relative;
+    overflow: hidden;
+    font-size: 0.9rem;
+    font-weight: 200;
+    transition: background-color 0.4s ease-out;
+    gap: 6px;
+    align-items: center;
+}
+
+.step-spinner {
+    animation: spin-step 0.8s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes spin-step {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#data_area div.steps-progress::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: var(--green);
+    width: var(--progress, 0%);
+    border-radius: 0 3px 3px 0;
+    transition: width 0.4s ease-out;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+}
+
+#data_area div.steps-progress.complete::after {
+    width: 100%;
 }
 
 #data_area div.nsfw {
@@ -232,7 +268,6 @@ h1.title span {
 #data_area div:hover {
     background-color: var(--main-darker);
     color: var(--bg);
-    transform: skew(-15deg);
     text-shadow: rgba(0, 0, 0, 0.8) 1px 1px 1px;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
 }
@@ -241,19 +276,11 @@ h1.title span {
     background-color: rgba(191, 0, 0, 1);
 }
 
-.mt-1 {
-    margin-top: 8px;
-}
-
 .key button {
     border-radius: 50px;
-    font-size: 1rem;
-    /* padding: 0 20px; */
+    font-size: 0.8rem;
     white-space: nowrap;
-    /* background: var(--bg);
-    color: var(--main-dark);
-	border: 3px solid var(--main); */
-    padding: 8px 24px;
+    padding: 6px 16px;
     cursor: pointer;
     background: var(--main);
     border: 1px solid var(--main);
@@ -261,6 +288,7 @@ h1.title span {
     color: var(--bg);
     font-family: "Archivo", system-ui, sans-serif;
     text-shadow: var(--main-darker) 1px 2px 1px;
+    transition: all 0.2s ease;
 }
 
 .key button:hover {
@@ -268,7 +296,8 @@ h1.title span {
     border: 1px solid var(--main-dark);
     color: var(--bg);
     background: linear-gradient(135deg, var(--main-dark) 0%, var(--main-darker) 40%, var(--main-darker) 100%);
-    box-shadow: 0 3px 15px -1px var(--main-5);
+    box-shadow: 0 3px 12px -1px var(--main-5);
+    transform: translateY(-1px);
 }
 
 .key button:disabled {
@@ -306,9 +335,9 @@ h1.title span {
 .styled-panel {
     background: var(--main-alpha-2);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 10px;
-    height: 180px;
+    border-radius: 10px;
+    padding: 8px;
+    height: 150px;
     overflow-y: auto;
     font-family: inherit;
 }
@@ -318,8 +347,8 @@ h1.title span {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: auto; /* overrides 250px */
-    margin-top: 15px; /* Adds space above the data table */
+    height: auto;
+    margin-top: 10px;
 }
 
 #data.hide {
@@ -327,14 +356,16 @@ h1.title span {
 }
 
 .log-output {
-    font-size: 0.9rem;
+    font-size: 0.78rem;
     display: flex;
     flex-direction: column-reverse;
+    line-height: 1.5;
 }
 
 .log-output:hover {
     border: 1px solid var(--main);
     background-color: var(--bg-btn);
+    transition: border-color 0.2s ease;
 }
 
 .grid-2-41 {
@@ -367,8 +398,8 @@ h1.title span {
 }
 
 .footerinfo {
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.78rem;
 }
 
 #backend-links {
@@ -431,7 +462,11 @@ h1.title span {
 
 #data table,
 #data div {
-    font-size: 0.9rem !important;
+    font-size: 0.78rem !important;
+}
+
+#data {
+    margin-top: 10px;
 }
 
 .grid {
@@ -461,6 +496,7 @@ h1.title span {
 .grid .frame:hover {
     border: 1px solid var(--border);
     background-color: var(--bg);
+    transition: all 0.2s ease;
 }
 
 .frame canvas {
@@ -712,7 +748,7 @@ h1.title span {
 }
 
 #buttons #generate {
-    padding: 8px 12px; /* Decrease padding further to match Load Models width */
+    padding: 6px 12px;
 }
 
 #buttons.loaded #generate {
@@ -750,8 +786,8 @@ h1.title span {
 
 #webnnstatus {
     text-align: right;
-    font-size: 0.9rem;
-    margin-top: 6px;
+    font-size: 0.78rem;
+    margin-top: 4px;
 }
 
 #webnnstatus #circle {
@@ -783,7 +819,7 @@ h1.title span {
 }
 
 #versions {
-    font-size: 0.9rem;
+    font-size: 0.78rem;
     display: block;
     text-align: right;
 }
@@ -804,7 +840,7 @@ h1.title span {
 
 #data {
     align-self: flex-start;
-    font-size: 0.9rem;
+    font-size: 0.78rem;
 }
 
 #data tr:first-child th:first-child {
@@ -827,7 +863,7 @@ h1.title span {
     text-align: center;
     margin: 0;
     border-spacing: 0;
-    font-size: 0.9rem;
+    font-size: 0.78rem;
     width: 100%;
 }
 
@@ -848,18 +884,27 @@ h1.title span {
 #data tr th,
 #data tr td {
     text-align: center;
-    border-bottom: 1px solid var(--border);
     border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+#data th td:first-child,
+#data tr td:first-child {
+    border-left: 1px solid var(--border);
+}
+
+#fetch {
+    border-left: 0px solid var(--border) !important;
 }
 
 #data tr th {
     font-weight: 600;
-    padding: 3px 8px;
+    padding: 3px 6px;
     border-top: 1px solid var(--border);
 }
 
 #data tr td {
-    padding: 3px 8px;
+    padding: 3px 6px;
 }
 
 #data tr:nth-child(odd) {
@@ -886,7 +931,7 @@ h1.title span {
     flex-direction: row;
     height: calc(100vh - 140px);
     overflow: hidden;
-    gap: 30px;
+    gap: 15px;
     margin-top: 15px;
     padding-bottom: 0;
 }
@@ -894,57 +939,46 @@ h1.title span {
 .dev-panel {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 6px;
 }
 
 .layout-left {
-    flex: 6;
-    min-width: 450px;
+    flex: 0 0 320px;
+    min-width: 280px;
+    max-width: 360px;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
-    order: 1; /* Force to the left since it's second in DOM */
+    order: 1;
 }
 
 .layout-right {
-    flex: 4;
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: var(--main-alpha-2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 10px;
-    order: 2; /* Force to the right */
+    order: 2;
     height: 100%;
     box-sizing: border-box;
 }
 
 .layout-right #image_area {
     margin: 0;
-    min-height: unset;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 100%;
     height: 100%;
-    padding: 20px; /* Leave extra 20px dynamic breathing room inside the grid */
-    box-sizing: border-box;
-    container-type: size; /* Enable container queries for perfect square */
 }
 
 .layout-right #img_div {
-    width: 100cqmin !important;
     height: 100cqmin !important;
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 512px;
+    max-height: 512px;
     aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 12px; /* Smooth corners for the image wrapper */
+    border-radius: 10px;
     overflow: hidden;
     position: relative;
 }
@@ -955,7 +989,7 @@ h1.title span {
     max-height: 100%;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
     .controls-panel .settings-left {
         flex-wrap: wrap;
     }
@@ -966,11 +1000,13 @@ h1.title span {
         flex-direction: column;
         height: auto;
         overflow-y: auto;
+        gap: 12px;
     }
     .layout-left,
     .layout-right {
         max-width: 100%;
         min-width: 100%;
+        flex: unset;
         order: unset;
     }
     .layout-right {
@@ -982,7 +1018,6 @@ h1.title span {
         height: auto;
     }
     .layout-right #img_div {
-        width: 100% !important;
         height: auto !important;
     }
 }
@@ -990,58 +1025,59 @@ h1.title span {
 .controls-panel {
     width: 100%;
     max-width: 100%;
-    margin: 0 0 10px 0;
+    margin: 0 0 8px 0;
     background: var(--main-alpha-2);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 12px 16px;
+    border-radius: 10px;
+    padding: 10px 12px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .controls-panel .input-row {
     display: flex;
+    flex-direction: column;
     width: 100%;
-    position: relative;
 }
 
 .controls-panel .tokeninfo {
-    position: absolute;
-    bottom: 12px;
-    right: 12px;
-    font-size: 0.8rem;
+    text-align: right;
+    font-size: 0.65rem;
     color: var(--font-weak);
-    pointer-events: none;
-    background: transparent;
+    margin-top: 4px;
+    padding-right: 2px;
 }
 
 .controls-panel #user-input {
     flex: 1;
-    padding: 6px 12px 28px 12px;
+    padding: 6px 10px;
     border-radius: 8px;
     border: 1px solid var(--border);
     background: var(--bg);
     color: var(--font);
     font-family: "Archivo", sans-serif;
     resize: vertical;
-    min-height: 100px;
-    font-size: 1rem;
+    min-height: 120px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    transition: border-color 0.2s ease;
 }
 
 .controls-panel .settings-row {
     display: flex;
-    /* flex-wrap: nowrap; */
-    gap: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
     align-items: center;
     justify-content: space-between;
 }
 
 .controls-panel .settings-left {
     display: flex;
-    /* flex-wrap: nowrap; */
-    gap: 8px;
+    flex-wrap: wrap;
+    gap: 6px;
     align-items: center;
+    justify-content: space-between;
 }
 
 .controls-panel .resolution-group,
@@ -1053,22 +1089,25 @@ h1.title span {
 
 .controls-panel .resolution-group label,
 .controls-panel .seed-group label {
-    font-size: 14px;
+    font-size: 11px;
     font-weight: 600;
     color: var(--font-weak);
     margin-bottom: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
 }
 
 .controls-panel #resolution-select {
-    padding: 2px 6px;
-    width: 105px;
+    padding: 2px 4px;
+    width: 95px;
     border: 1px solid var(--border);
     border-radius: 6px;
     background: var(--bg);
     color: var(--font);
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
     font-family: "Archivo", sans-serif;
+    transition: border-color 0.2s ease;
 }
 
 .controls-panel .seed-input-container {
@@ -1078,13 +1117,18 @@ h1.title span {
     border: 1px solid var(--border);
     border-radius: 6px;
     overflow: hidden;
+    transition: border-color 0.2s ease;
+}
+
+.controls-panel .seed-input-container:focus-within {
+    border-color: var(--main);
 }
 
 .controls-panel #seed-input {
-    width: 105px;
-    padding: 4px 6px;
+    width: 85px;
+    padding: 3px 4px;
     border: none;
-    font-size: 14px;
+    font-size: 12px;
     background: transparent;
     color: var(--font);
     font-family: inherit;
@@ -1092,10 +1136,10 @@ h1.title span {
 }
 
 .controls-panel #steps-input {
-    width: 50px;
-    padding: 4px 6px;
+    width: 42px;
+    padding: 3px 4px;
     border: none;
-    font-size: 14px;
+    font-size: 12px;
     background: transparent;
     color: var(--font);
     font-family: inherit;
@@ -1108,15 +1152,20 @@ h1.title span {
 }
 
 .controls-panel #random-seed {
-    padding: 6px 10px;
+    padding: 2px 8px;
     border: none;
     border-left: 1px solid var(--border);
     background: var(--main-alpha-2);
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.controls-panel #random-seed:hover {
+    background: var(--main-alpha-4);
 }
 
 .controls-panel .action-buttons {
@@ -1235,10 +1284,6 @@ h1.title span {
 
     .v9 {
         padding: 1rem 1rem 0 1rem;
-    }
-
-    .mt-1 {
-        margin-top: 3rem;
     }
 
     .footerinfo {

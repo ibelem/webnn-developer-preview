@@ -623,7 +623,7 @@ async function generateImage() {
         dom["runTotal"].innerHTML = "";
         dom["safety_checker"].run.innerHTML = "";
 
-        $("#total_data").innerHTML = "...";
+        $("#total_data").innerHTML = "";
         $("#total_data").setAttribute("class", "show");
 
         log(`[Session Run] Beginning`);
@@ -691,6 +691,10 @@ async function generateImage() {
         writeTensor(tensorA, latents);
 
         for (let i = 0; i < numInferenceSteps; i++) {
+            const totalData = $("#total_data");
+            totalData.innerHTML = `<svg class="step-spinner" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.3)" stroke-width="2.5"/><path d="M12 2a10 10 0 0 1 10 10" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>${i + 1} / ${numInferenceSteps} steps`;
+            totalData.setAttribute("class", "show steps-progress");
+            totalData.style.setProperty("--progress", `${((i + 1) / numInferenceSteps) * 100}%`);
             start = performance.now();
             // Inference prepare for Transformer
             models["transformer"].feed.encoder_hidden_states = models["text_encoder"].fetches["encoder_hidden_state"];
@@ -808,6 +812,7 @@ async function generateImage() {
             $("#img_div").setAttribute("class", "frame done");
         }
 
+        $("#total_data").setAttribute("class", "show");
         $("#total_data").innerHTML = `${totalRunTime}ms`;
 
         // Restore original tensors for next run
@@ -970,7 +975,7 @@ const ui = async () => {
                 throw new Error("webgpu is NOT supported");
             }
             break;
-        case "webnn":
+        case "webnn": {
             await checkWebNN();
             const webnnStatus = await getWebnnStatus();
             if (webnnStatus.webnn) {
@@ -981,6 +986,7 @@ const ui = async () => {
                 }
             }
             break;
+        }
         default:
             throw new Error(`The provider ${config.provider} is not supported.`);
     }
@@ -1019,6 +1025,14 @@ const ui = async () => {
         resolution = parseInt(e.target.value);
         stepsInput.value = resolution === 512 ? 9 : 3;
         stepsInput.dispatchEvent(new Event("change"));
+        const imgDiv = $("#img_div");
+        if (resolution === 512) {
+            imgDiv.style.maxWidth = "512px";
+            imgDiv.style.maxHeight = "512px";
+        } else {
+            imgDiv.style.maxWidth = "100%";
+            imgDiv.style.maxHeight = "100%";
+        }
     });
 
     // Seed randomize button
@@ -1029,7 +1043,7 @@ const ui = async () => {
     // Initialize with a random seed on load
     $("#seed-input").value = Math.floor(Math.random() * 2147483647);
 
-    if (config.language === "zh") {
+    if (config.presetPrompt) {
         // prompt.value =
         //     "极具氛围感的暗调人像，一位优雅的中国美女在黑暗的房间里。一束强光通过遮光板，在她的脸上投射出一个清晰的闪电形状的光影，正好照亮一只眼睛。高对比度，明暗交界清晰，神秘感，莱卡相机色调。";
         prompt.value =

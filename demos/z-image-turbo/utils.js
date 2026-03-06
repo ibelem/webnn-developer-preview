@@ -82,7 +82,7 @@ function getConfig() {
         deviceType: "gpu",
         useIOBinding: true,
         verbose: false,
-        language: "en",
+        presetPrompt: false,
     };
 
     for (const key in config) {

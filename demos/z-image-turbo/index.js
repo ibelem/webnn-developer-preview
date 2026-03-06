@@ -1017,6 +1017,8 @@ const ui = async () => {
     resolution = parseInt(resolutionSelect.value);
     resolutionSelect.addEventListener("change", e => {
         resolution = parseInt(e.target.value);
+        stepsInput.value = resolution === 512 ? 9 : 3;
+        stepsInput.dispatchEvent(new Event("change"));
     });
 
     // Seed randomize button

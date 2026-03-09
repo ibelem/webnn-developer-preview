@@ -220,17 +220,17 @@ h1.title span {
 #data_area div.show {
     display: flex;
     justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 200;
+    transition: background-color 0.4s ease-out;
+    gap: 6px;
+    align-items: center;
 }
 
 #data_area div.steps-progress {
     background-color: color-mix(in srgb, var(--pink) calc(100% - var(--progress, 0%)), var(--green) var(--progress, 0%));
     position: relative;
     overflow: hidden;
-    font-size: 0.9rem;
-    font-weight: 200;
-    transition: background-color 0.4s ease-out;
-    gap: 6px;
-    align-items: center;
 }
 
 .step-spinner {
@@ -951,6 +951,24 @@ h1.title span {
     overflow-y: auto;
     overflow-x: hidden;
     order: 1;
+}
+
+.layout-left::-webkit-scrollbar {
+    color: transparent;
+    background: transparent;
+    width: 1px;
+}
+
+.layout-left::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.layout-left::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+}
+
+.layout-left:hover::-webkit-scrollbar-thumb {
+    background-color: transparent;
 }
 
 .layout-right {

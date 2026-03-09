@@ -692,9 +692,14 @@ async function generateImage() {
 
         for (let i = 0; i < numInferenceSteps; i++) {
             const totalData = $("#total_data");
-            totalData.innerHTML = `<svg class="step-spinner" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.3)" stroke-width="2.5"/><path d="M12 2a10 10 0 0 1 10 10" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>${i + 1} / ${numInferenceSteps} steps`;
-            totalData.setAttribute("class", "show steps-progress");
-            totalData.style.setProperty("--progress", `${((i + 1) / numInferenceSteps) * 100}%`);
+            if (config.useIOBinding) {
+                totalData.innerHTML = `<svg class="step-spinner" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.3)" stroke-width="2.5"/><path d="M12 2a10 10 0 0 1 10 10" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg> generating ...`;
+                totalData.setAttribute("class", "show");
+            } else {
+                totalData.innerHTML = `<svg class="step-spinner" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.3)" stroke-width="2.5"/><path d="M12 2a10 10 0 0 1 10 10" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>${i + 1} / ${numInferenceSteps} steps`;
+                totalData.setAttribute("class", "show steps-progress");
+                totalData.style.setProperty("--progress", `${((i + 1) / numInferenceSteps) * 100}%`);
+            }
             start = performance.now();
             // Inference prepare for Transformer
             models["transformer"].feed.encoder_hidden_states = models["text_encoder"].fetches["encoder_hidden_state"];
